@@ -9,15 +9,20 @@ SELINUX1 := :z
 SELINUX2 := ,z
 endif
 
-.PHONY: all clean
+.PHONY: all setup build clean
 
-all:
-	$(DOCKER) build --tag zmk --file Dockerfile .
+all: setup build
+
+build:
 	$(DOCKER) run --rm -it --name zmk \
 		-v $(PWD)/firmware:/app/firmware$(SELINUX1) \
 		-v $(PWD)/config:/app/config:ro$(SELINUX2) \
 		-e TIMESTAMP=$(TIMESTAMP) \
 		zmk
+	open firmware
+
+setup: 
+	$(DOCKER) build --tag zmk --file Dockerfile .
 
 clean:
 	rm -f firmware/*.uf2
