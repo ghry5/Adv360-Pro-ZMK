@@ -14,6 +14,7 @@ endif
 all: setup build
 
 build:
+	rm -f firmware/*.uf2
 	$(DOCKER) run --rm -it --name zmk \
 		-v $(PWD)/firmware:/app/firmware$(SELINUX1) \
 		-v $(PWD)/config:/app/config:ro$(SELINUX2) \
